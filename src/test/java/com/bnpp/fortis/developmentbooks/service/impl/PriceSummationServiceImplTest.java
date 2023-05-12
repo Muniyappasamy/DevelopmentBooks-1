@@ -1,6 +1,7 @@
 package com.bnpp.fortis.developmentbooks.service.impl;
 
 import com.bnpp.fortis.developmentbooks.exception.InvalidBookException;
+import com.bnpp.fortis.developmentbooks.exception.InvalidQuantityException;
 import com.bnpp.fortis.developmentbooks.model.BookDto;
 import com.bnpp.fortis.developmentbooks.model.CartSummaryReportDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,6 +44,8 @@ class PriceSummationServiceImplTest {
     private static final int ONE = 1;
     private static final int TWO = 2;
     private static final int THREE = 3;
+    private static final int INVALID_QUANTITY = -1;
+
 
 
     List<BookDto> listOfBooks;
@@ -240,6 +243,19 @@ class PriceSummationServiceImplTest {
 
 
         assertThrows(InvalidBookException.class, () -> priceSummationServiceImpl.getCartSummaryReport(listOfBooks));
+    }
+
+    @Test
+    @DisplayName("calculate price summary should throw invalid quantity")
+    void getCartSummaryshouldThrowInvalidExceptionOnInvalidQuantity() {
+
+        BookDto firstBook = new BookDto(FIRST_BOOK_NAME, INVALID_QUANTITY);
+
+
+        listOfBooks.add(firstBook);
+
+
+        assertThrows(InvalidQuantityException.class, () -> priceSummationServiceImpl.getCartSummaryReport(listOfBooks));
     }
 
 
