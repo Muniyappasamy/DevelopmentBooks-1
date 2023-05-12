@@ -38,20 +38,24 @@ public class PriceSummationServiceImpl implements PriceSummationService {
         double actualPriceforDistinctBooks = distinctListOfBooks.stream()
                 .mapToDouble(bookName -> bookTitlePriceMap.get(bookName)).sum();
         double discountedPrice = (actualPriceforDistinctBooks * getDiscountPercentage(distinctBooksCount)) / HUNDRED;
-        distinctListOfBooks.forEach(bookName -> {
-            int quantity = listOfbookWithQuantityMap.get(bookName);
-            if (quantity > ONE_QUANTITY) {
-                listOfbookWithQuantityMap.put(bookName, quantity - ONE_QUANTITY);
-            } else {
-                listOfbookWithQuantityMap.remove(bookName);
-            }
-        });
+        removeDiscountedBooksFromMap(listOfbookWithQuantityMap, distinctListOfBooks);
         double priceForDiscountedBooks = actualPriceforDistinctBooks - discountedPrice;
         Set<String> remainingBooks = listOfbookWithQuantityMap.keySet();
-        double priceForRemainingBooks = remainingBooks.stream()
+        double priceForRemainingItems = remainingBooks.stream()
                 .mapToDouble(bookName -> listOfbookWithQuantityMap.get(bookName) * bookTitlePriceMap.get(bookName)).sum();
 
-        return (priceForDiscountedBooks + priceForRemainingBooks);
+        return (priceForDiscountedBooks + priceForRemainingItems);
+    }
+
+    private void removeDiscountedBooksFromMap(Map<String, Integer> itemIdQuantityMap, List<String> discountedItems) {
+        discountedItems.forEach(itemId -> {
+            int quantity = itemIdQuantityMap.get(itemId);
+            if (quantity > ONE_QUANTITY) {
+                itemIdQuantityMap.put(itemId, quantity - ONE_QUANTITY);
+            } else {
+                itemIdQuantityMap.remove(itemId);
+            }
+        });
     }
 
     private int getDiscountPercentage(long numberOfDistinctBooks) {
