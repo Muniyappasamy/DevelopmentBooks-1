@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class PriceSummationServiceImpl implements PriceSummationService {
+
+
     @Override
     public Double calculateBookPrice(List<BookDto> listOfBooks) {
         Map<String, Double> bookTitlePriceMap = Arrays.stream(BookStoreEnum.values())
@@ -20,6 +22,8 @@ public class PriceSummationServiceImpl implements PriceSummationService {
         int discountPercentage = 0;
         if(distinctBooks == 2){
             discountPercentage = 5;
+        } else if (distinctBooks == 3) {
+            discountPercentage = 10;
         }
 
         double actualPrice = listOfBooks.stream()
