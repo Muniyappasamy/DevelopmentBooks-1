@@ -16,6 +16,16 @@ public class PriceSummationServiceImpl implements PriceSummationService {
     public Double calculateBookPrice(List<BookDto> listOfBooks) {
         Map<String, Double> bookTitlePriceMap = Arrays.stream(BookStoreEnum.values())
                 .collect(Collectors.toMap(BookStoreEnum::getBookTitle, BookStoreEnum::getPrice));
-        return listOfBooks.stream().mapToDouble(book -> bookTitlePriceMap.get(book.getName()) * book.getQuantity()).sum();
+        long distinctBooks = listOfBooks.stream().map(BookDto::getName).distinct().count();
+        int discountPercentage = 0;
+        if(distinctBooks == 2){
+            discountPercentage = 5;
+        }
+
+        double actualPrice = listOfBooks.stream()
+                .mapToDouble(book -> bookTitlePriceMap.get(book.getName()) * book.getQuantity()).sum();
+        double discountedPrice = (actualPrice * discountPercentage) / 100;
+
+        return (actualPrice - discountedPrice);
     }
 }

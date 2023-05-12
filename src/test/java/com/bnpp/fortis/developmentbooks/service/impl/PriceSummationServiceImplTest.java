@@ -19,6 +19,7 @@ class PriceSummationServiceImplTest {
 
     private static final String FIRST_BOOK_NAME = "Clean Code";
     private static final String SECOND_BOOK_NAME = "The Clean Coder";
+    private static final double TWO_DIFF_BOOK_EXPECTED_PRICE_WITH_2_PER_DISCOUNT = 95.0;
 
     private static final double BOOK_PRICE = 50.00;
 
@@ -68,15 +69,30 @@ class PriceSummationServiceImplTest {
         Double expectedPrice = (TWO * BOOK_PRICE);
 
         BookDto firstBook = new BookDto(FIRST_BOOK_NAME, ONE);
-        BookDto secondBook = new BookDto(SECOND_BOOK_NAME, ONE);
+        BookDto secondBook = new BookDto(FIRST_BOOK_NAME, ONE);
 
         listOfBooks.add(firstBook);
         listOfBooks.add(secondBook);
 
         Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks);
-        
+
         assertEquals(expectedPrice, actualBookPrice);
     }
 
+
+    @Test
+    @DisplayName("Two different listOfBooks should get 5% discount")
+    void twoDifferentBooksShouldReturnPriceNinetyFive() {
+
+        BookDto firstBook = new BookDto(FIRST_BOOK_NAME, ONE);
+        BookDto secondBook = new BookDto(SECOND_BOOK_NAME, ONE);
+
+        listOfBooks.add(firstBook);
+        listOfBooks.add(secondBook);
+
+        Double actualPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks);
+
+        assertEquals(TWO_DIFF_BOOK_EXPECTED_PRICE_WITH_2_PER_DISCOUNT, actualPrice);
+    }
 
 }
