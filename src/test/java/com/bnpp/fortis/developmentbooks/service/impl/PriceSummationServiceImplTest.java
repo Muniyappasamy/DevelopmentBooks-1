@@ -21,10 +21,13 @@ class PriceSummationServiceImplTest {
     private static final String SECOND_BOOK_NAME = "The Clean Coder";
     private static final String THIRD_BOOK_NAME = "Clean Architecture";
     private static final String FOURTH_BOOK_NAME = "Test-Driven Development By Example";
+    private static final String FIFTH_BOOK_NAME = "Working Effectively With Legacy Code";
 
     private static final double TWO_DIFF_BOOK_EXPECTED_PRICE_WITH_2_PER_DISCOUNT = 95.0;
     private static final double THREE_DIFF_BOOK_EXPECTED_PRICE_WITH_10_PER_DISCOUNT = 135.0;
     private static final double FOUR_DISTINCT_BOOKS_PRICE_WITH_TWENTY_PERCENTAGE_DISCOUNT = 160.00;
+    private static final double FOUR_DISTINCT_BOOKS_PRICE_WITH_TWENTYFIVE_PERCENTAGE_DISCOUNT = 187.50;
+
     private static final double BOOK_PRICE = 50.00;
 
     private static final int ONE = 1;
@@ -121,6 +124,28 @@ class PriceSummationServiceImplTest {
 
 
         assertEquals(FOUR_DISTINCT_BOOKS_PRICE_WITH_TWENTY_PERCENTAGE_DISCOUNT, actualPrice);
+    }
+
+    @Test
+    @DisplayName("Five different listOfBooks should get 25% discount")
+    void fiveDifferentBooksShouldReturnPriceOneHundredAndEightySeven() {
+
+
+        BookDto firstBook = new BookDto(FIRST_BOOK_NAME, ONE);
+        BookDto secondBook = new BookDto(SECOND_BOOK_NAME, ONE);
+        BookDto thirdBook = new BookDto(THIRD_BOOK_NAME, ONE);
+        BookDto fourthBook = new BookDto(FOURTH_BOOK_NAME, ONE);
+        BookDto fifthBook = new BookDto(FIFTH_BOOK_NAME, 1);
+
+        listOfBooks.add(firstBook);
+        listOfBooks.add(secondBook);
+        listOfBooks.add(thirdBook);
+        listOfBooks.add(fourthBook);
+        listOfBooks.add(fifthBook);
+
+        Double actualPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks);
+
+        assertEquals(FOUR_DISTINCT_BOOKS_PRICE_WITH_TWENTYFIVE_PERCENTAGE_DISCOUNT, actualPrice);
     }
 
 }
