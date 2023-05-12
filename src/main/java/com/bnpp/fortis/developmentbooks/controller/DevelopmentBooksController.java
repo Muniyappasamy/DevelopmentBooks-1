@@ -1,14 +1,15 @@
 package com.bnpp.fortis.developmentbooks.controller;
 
 import com.bnpp.fortis.developmentbooks.model.Book;
+import com.bnpp.fortis.developmentbooks.model.BookDto;
+import com.bnpp.fortis.developmentbooks.model.CartSummaryReportDto;
 import com.bnpp.fortis.developmentbooks.service.DevelopmentBooksService;
+import com.bnpp.fortis.developmentbooks.service.PriceSummationService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,6 +21,8 @@ public class DevelopmentBooksController {
 
     private final DevelopmentBooksService developmentBooksService;
 
+    private final PriceSummationService priceSummationService;
+
 
     @ApiOperation(value = "Get list of Books in the Store ", response = Iterable.class, tags = "getAllBooks")
     @ApiResponses(value = {
@@ -29,5 +32,10 @@ public class DevelopmentBooksController {
     @GetMapping("${developmentbooks.endpoints.getallbooks}")
     public List<Book> getallbooks() {
         return developmentBooksService.getAllBooks();
+    }
+
+    @PostMapping("${developmentbooks.endpoints.calculatediscountprice}")
+    public CartSummaryReportDto calculateDiscountPrice(@RequestBody List<BookDto> listOfBooks) {
+        return priceSummationService.getCartSummaryReport(listOfBooks);
     }
 }
