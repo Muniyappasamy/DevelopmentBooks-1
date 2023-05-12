@@ -22,7 +22,7 @@ One copy of the five books costs 50 EUR.
 
 # Purpose
 
-Develop a java application in TDD fashion (**Test-Driven-Development**) for shopping cart books with discount and get the best calculated price based on the discounts
+Develop a java application in TDD fashion (**Test-Driven-Development**) for shopping cart books with discount and get the best calculated price based on the available discounts with respect to unique number of books quantity 
 
 # Tools used for developing this application 
 
