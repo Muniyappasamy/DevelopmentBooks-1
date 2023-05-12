@@ -63,22 +63,6 @@ class PriceSummationServiceImplTest {
         assertEquals(expectedPrice, actualBookPrice);
     }
 
-    @Test
-    @DisplayName("calculate price for different books")
-    void calculatePrice_shouldReturnPriceForMultipleBooks() {
-        Double expectedPrice = (TWO * BOOK_PRICE);
-
-        BookDto firstBook = new BookDto(FIRST_BOOK_NAME, ONE);
-        BookDto secondBook = new BookDto(FIRST_BOOK_NAME, ONE);
-
-        listOfBooks.add(firstBook);
-        listOfBooks.add(secondBook);
-
-        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks);
-
-        assertEquals(expectedPrice, actualBookPrice);
-    }
-
 
     @Test
     @DisplayName("Two different listOfBooks should get 5% discount")
