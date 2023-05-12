@@ -6,5 +6,5 @@ import com.bnpp.fortis.developmentbooks.model.CartSummaryReportDto;
 import java.util.List;
 
 public interface PriceSummationService {
-    public CartSummaryReportDto calculateBookPrice(List<BookDto> listOfBooks);
+    public CartSummaryReportDto getCartSummaryReport(List<BookDto> listOfBooks);
 }

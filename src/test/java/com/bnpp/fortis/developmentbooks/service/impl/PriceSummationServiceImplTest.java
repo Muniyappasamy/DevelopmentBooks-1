@@ -56,7 +56,7 @@ class PriceSummationServiceImplTest {
 
         listOfBooks.add(bookDto);
 
-        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks).getCostEffectivePrice();
+        Double actualBookPrice = priceSummationServiceImpl.getCartSummaryReport(listOfBooks).getCostEffectivePrice();
 
         assertEquals(BOOK_PRICE, actualBookPrice);
     }
@@ -70,7 +70,7 @@ class PriceSummationServiceImplTest {
 
         listOfBooks.add(bookDto);
 
-        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks).getCostEffectivePrice();
+        Double actualBookPrice = priceSummationServiceImpl.getCartSummaryReport(listOfBooks).getCostEffectivePrice();
 
 
         assertEquals(expectedPrice, actualBookPrice);
@@ -87,7 +87,7 @@ class PriceSummationServiceImplTest {
         listOfBooks.add(firstBook);
         listOfBooks.add(secondBook);
 
-        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks).getCostEffectivePrice();
+        Double actualBookPrice = priceSummationServiceImpl.getCartSummaryReport(listOfBooks).getCostEffectivePrice();
 
         assertEquals(TWO_DIFF_BOOK_EXPECTED_PRICE_WITH_2_PER_DISCOUNT, actualBookPrice);
     }
@@ -106,7 +106,7 @@ class PriceSummationServiceImplTest {
         listOfBooks.add(secondBook);
         listOfBooks.add(thirdBook);
 
-        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks).getCostEffectivePrice();
+        Double actualBookPrice = priceSummationServiceImpl.getCartSummaryReport(listOfBooks).getCostEffectivePrice();
 
         assertEquals(THREE_DIFF_BOOK_EXPECTED_PRICE_WITH_10_PER_DISCOUNT, actualBookPrice);
     }
@@ -126,7 +126,7 @@ class PriceSummationServiceImplTest {
         listOfBooks.add(thirdBook);
         listOfBooks.add(fourthBook);
 
-        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks).getCostEffectivePrice();
+        Double actualBookPrice = priceSummationServiceImpl.getCartSummaryReport(listOfBooks).getCostEffectivePrice();
 
 
         assertEquals(FOUR_DISTINCT_BOOKS_PRICE_WITH_TWENTY_PERCENTAGE_DISCOUNT, actualBookPrice);
@@ -149,7 +149,7 @@ class PriceSummationServiceImplTest {
         listOfBooks.add(fourthBook);
         listOfBooks.add(fifthBook);
 
-        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks).getCostEffectivePrice();
+        Double actualBookPrice = priceSummationServiceImpl.getCartSummaryReport(listOfBooks).getCostEffectivePrice();
 
         assertEquals(FOUR_DISTINCT_BOOKS_PRICE_WITH_TWENTYFIVE_PERCENTAGE_DISCOUNT, actualBookPrice);
     }
@@ -167,7 +167,7 @@ class PriceSummationServiceImplTest {
         listOfBooks.add(secondBook);
 
 
-        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks).getCostEffectivePrice();
+        Double actualBookPrice = priceSummationServiceImpl.getCartSummaryReport(listOfBooks).getCostEffectivePrice();
 
 
         assertEquals(TWO_DISTINCT_AND_ONE_SEPARATE_BOOK_WITH_DISCOUNT, actualBookPrice);
@@ -191,7 +191,7 @@ class PriceSummationServiceImplTest {
         listOfBooks.add(fifthBook);
 
 
-        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks).getCostEffectivePrice();
+        Double actualBookPrice = priceSummationServiceImpl.getCartSummaryReport(listOfBooks).getCostEffectivePrice();
 
         assertEquals(NINE_BOOKS_WITH_FIVE_DISTINCT_BOOKS_DISCOUNT, actualBookPrice);
     }
