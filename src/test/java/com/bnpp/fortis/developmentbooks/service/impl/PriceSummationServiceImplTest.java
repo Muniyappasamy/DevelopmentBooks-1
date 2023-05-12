@@ -56,7 +56,7 @@ class PriceSummationServiceImplTest {
 
         listOfBooks.add(bookDto);
 
-        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks);
+        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks).getCostEffectivePrice();
 
         assertEquals(BOOK_PRICE, actualBookPrice);
     }
@@ -70,7 +70,8 @@ class PriceSummationServiceImplTest {
 
         listOfBooks.add(bookDto);
 
-        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks);
+        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks).getCostEffectivePrice();
+
 
         assertEquals(expectedPrice, actualBookPrice);
     }
@@ -86,9 +87,9 @@ class PriceSummationServiceImplTest {
         listOfBooks.add(firstBook);
         listOfBooks.add(secondBook);
 
-        Double actualPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks);
+        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks).getCostEffectivePrice();
 
-        assertEquals(TWO_DIFF_BOOK_EXPECTED_PRICE_WITH_2_PER_DISCOUNT, actualPrice);
+        assertEquals(TWO_DIFF_BOOK_EXPECTED_PRICE_WITH_2_PER_DISCOUNT, actualBookPrice);
     }
 
 
@@ -105,9 +106,9 @@ class PriceSummationServiceImplTest {
         listOfBooks.add(secondBook);
         listOfBooks.add(thirdBook);
 
-        Double actualPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks);
+        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks).getCostEffectivePrice();
 
-        assertEquals(THREE_DIFF_BOOK_EXPECTED_PRICE_WITH_10_PER_DISCOUNT, actualPrice);
+        assertEquals(THREE_DIFF_BOOK_EXPECTED_PRICE_WITH_10_PER_DISCOUNT, actualBookPrice);
     }
 
     @Test
@@ -125,10 +126,10 @@ class PriceSummationServiceImplTest {
         listOfBooks.add(thirdBook);
         listOfBooks.add(fourthBook);
 
-        Double actualPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks);
+        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks).getCostEffectivePrice();
 
 
-        assertEquals(FOUR_DISTINCT_BOOKS_PRICE_WITH_TWENTY_PERCENTAGE_DISCOUNT, actualPrice);
+        assertEquals(FOUR_DISTINCT_BOOKS_PRICE_WITH_TWENTY_PERCENTAGE_DISCOUNT, actualBookPrice);
     }
 
     @Test
@@ -148,9 +149,9 @@ class PriceSummationServiceImplTest {
         listOfBooks.add(fourthBook);
         listOfBooks.add(fifthBook);
 
-        Double actualPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks);
+        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks).getCostEffectivePrice();
 
-        assertEquals(FOUR_DISTINCT_BOOKS_PRICE_WITH_TWENTYFIVE_PERCENTAGE_DISCOUNT, actualPrice);
+        assertEquals(FOUR_DISTINCT_BOOKS_PRICE_WITH_TWENTYFIVE_PERCENTAGE_DISCOUNT, actualBookPrice);
     }
 
 
@@ -166,10 +167,10 @@ class PriceSummationServiceImplTest {
         listOfBooks.add(secondBook);
 
 
-        Double actualPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks);
+        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks).getCostEffectivePrice();
 
 
-        assertEquals(TWO_DISTINCT_AND_ONE_SEPARATE_BOOK_WITH_DISCOUNT, actualPrice);
+        assertEquals(TWO_DISTINCT_AND_ONE_SEPARATE_BOOK_WITH_DISCOUNT, actualBookPrice);
     }
 
 
@@ -190,9 +191,9 @@ class PriceSummationServiceImplTest {
         listOfBooks.add(fifthBook);
 
 
-        Double actualPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks);
+        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks).getCostEffectivePrice();
 
-        assertEquals(NINE_BOOKS_WITH_FIVE_DISTINCT_BOOKS_DISCOUNT, actualPrice);
+        assertEquals(NINE_BOOKS_WITH_FIVE_DISTINCT_BOOKS_DISCOUNT, actualBookPrice);
     }
 
 }
