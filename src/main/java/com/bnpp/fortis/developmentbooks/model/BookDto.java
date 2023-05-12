@@ -1,5 +1,6 @@
-package com.bnpp.fortis.developmentbooks.model;
+package com.bnpp.forties.booksdevelopment.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,8 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookDto {
-
+    @ApiModelProperty(notes = "Name of the Book", name = "name", required = true, value = "test book name")
     private String name;
 
+    @ApiModelProperty(notes = "Quantity of the Book", name = "quantity", required = true, value = "test quantity")
     private int quantity;
 }
