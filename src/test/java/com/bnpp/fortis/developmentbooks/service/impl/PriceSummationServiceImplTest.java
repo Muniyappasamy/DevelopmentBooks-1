@@ -27,6 +27,7 @@ class PriceSummationServiceImplTest {
     private static final double THREE_DIFF_BOOK_EXPECTED_PRICE_WITH_10_PER_DISCOUNT = 135.0;
     private static final double FOUR_DISTINCT_BOOKS_PRICE_WITH_TWENTY_PERCENTAGE_DISCOUNT = 160.00;
     private static final double FOUR_DISTINCT_BOOKS_PRICE_WITH_TWENTYFIVE_PERCENTAGE_DISCOUNT = 187.50;
+    private static final double NINE_BOOKS_WITH_FIVE_DISTINCT_BOOKS_DISCOUNT = 372.5;
 
     private static final double TWO_DISTINCT_AND_ONE_SEPARATE_BOOK_WITH_DISCOUNT = 145.00;
 
@@ -34,6 +35,8 @@ class PriceSummationServiceImplTest {
 
     private static final int ONE = 1;
     private static final int TWO = 2;
+    private static final int THREE = 3;
+
 
     List<BookDto> listOfBooks;
 
@@ -167,6 +170,29 @@ class PriceSummationServiceImplTest {
 
 
         assertEquals(TWO_DISTINCT_AND_ONE_SEPARATE_BOOK_WITH_DISCOUNT, actualPrice);
+    }
+
+
+    @Test
+    @DisplayName("apply discount to all distinct listOfBooks only ")
+    void ApplyDiscountToAllDistinctBooks() {
+
+        BookDto firstBook = new BookDto(FIRST_BOOK_NAME, TWO);
+        BookDto secondBook = new BookDto(SECOND_BOOK_NAME, ONE);
+        BookDto thirdBook = new BookDto(THIRD_BOOK_NAME, THREE);
+        BookDto fourthBook = new BookDto(FOURTH_BOOK_NAME, TWO);
+        BookDto fifthBook = new BookDto(FIFTH_BOOK_NAME, ONE);
+
+        listOfBooks.add(firstBook);
+        listOfBooks.add(secondBook);
+        listOfBooks.add(thirdBook);
+        listOfBooks.add(fourthBook);
+        listOfBooks.add(fifthBook);
+
+
+        Double actualPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks);
+
+        assertEquals(NINE_BOOKS_WITH_FIVE_DISTINCT_BOOKS_DISCOUNT, actualPrice);
     }
 
 }
