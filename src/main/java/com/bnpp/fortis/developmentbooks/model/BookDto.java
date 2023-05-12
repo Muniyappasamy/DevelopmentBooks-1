@@ -1,4 +1,4 @@
-package com.bnpp.forties.booksdevelopment.model;
+package com.bnpp.fortis.developmentbooks.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

@@ -21,5 +21,5 @@ public class CartSummaryReportDto {
 
     @ApiModelProperty(notes = "BestPrice post discount for the Books", name = "bestPrice", required = true, value = "test bestPrice")
     private double costEffectivePrice;
-    
+
 }
