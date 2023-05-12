@@ -1,5 +1,6 @@
 package com.bnpp.fortis.developmentbooks.service.impl;
 
+import com.bnpp.fortis.developmentbooks.exception.InvalidBookException;
 import com.bnpp.fortis.developmentbooks.model.BookDto;
 import com.bnpp.fortis.developmentbooks.model.BookGroupClassification;
 import com.bnpp.fortis.developmentbooks.model.CartSummaryReportDto;
@@ -33,6 +34,8 @@ public class PriceSummationServiceImpl implements PriceSummationService {
     @Override
     public CartSummaryReportDto getCartSummaryReport(List<BookDto> listOfBooks) {
 
+        validateAllBooks(listOfBooks);
+
         Map<String, Integer> listOfBooksWithQuantityMap = listOfBooks.stream()
                 .collect(Collectors.toMap(BookDto::getName, BookDto::getQuantity));
         List<Integer> listOfPossibleDiscounts = getPossibleDiscountValues(listOfBooksWithQuantityMap.size());
@@ -44,7 +47,13 @@ public class PriceSummationServiceImpl implements PriceSummationService {
         }
         return cartSummaryReportDto;
     }
-
+    public void validateAllBooks(List<BookDto> listOfBooks) {
+        Map<String, Double> validBooks = getBookNamePriceMap(); //
+        List<String> invalidBooks = listOfBooks.stream().filter(book -> !validBooks.containsKey(book.getName())).map(BookDto::getName).collect(Collectors.toList());
+        if (CollectionUtils.isNotEmpty(invalidBooks)) {
+            throw new InvalidBookException(invalidBooks);
+        }
+    }
     public void calculateAndUpdatePriceWithOutDiscount(Map<String, Integer> listOfbooksWithQuantityMap, CartSummaryReportDto priceSummaryDto) {
         BookGroupClassification booksWithoutDiscount = getListOfBookGroupWithoutDiscount(listOfbooksWithQuantityMap);
         List<BookGroupClassification> listOfBookGroupClassification = new ArrayList<>();

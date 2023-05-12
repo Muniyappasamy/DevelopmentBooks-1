@@ -1,5 +1,6 @@
 package com.bnpp.fortis.developmentbooks.service.impl;
 
+import com.bnpp.fortis.developmentbooks.exception.InvalidBookException;
 import com.bnpp.fortis.developmentbooks.model.BookDto;
 import com.bnpp.fortis.developmentbooks.model.CartSummaryReportDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +24,8 @@ class PriceSummationServiceImplTest {
     private static final String THIRD_BOOK_NAME = "Clean Architecture";
     private static final String FOURTH_BOOK_NAME = "Test-Driven Development By Example";
     private static final String FIFTH_BOOK_NAME = "Working Effectively With Legacy Code";
+
+    private static final String BOOK_NOT_IN_BOOKSTORE = "Davince Code";
 
     private static final double TWO_DIFF_BOOK_EXPECTED_PRICE_WITH_2_PER_DISCOUNT = 95.0;
     private static final double THREE_DIFF_BOOK_EXPECTED_PRICE_WITH_10_PER_DISCOUNT = 135.0;
@@ -224,6 +227,19 @@ class PriceSummationServiceImplTest {
         assertEquals(NINE_BOOKS_WITH_FIVE_DISTINCT_BOOKS_ACTUAL_PRICE, cartSummaryReportDto.getActualPrice());
         assertEquals(NINE_BOOKS_WITH_FIVE_DISTINCT_BOOKS_DISCOUNT_AMOUNT, cartSummaryReportDto.getTotalDiscount());
         assertEquals(NINE_BOOKS_WITH_FIVE_DISTINCT_BOOKS_DISCOUNT, cartSummaryReportDto.getCostEffectivePrice());
+    }
+
+    @Test
+    @DisplayName("calculate price summary should throw book not found exception for the invalid books")
+    void getCartSummary_shouldThrowInvalidExceptionOnInvalidBooks() {
+        BookDto firstBook = new BookDto(FIRST_BOOK_NAME, TWO);
+        BookDto secondBook = new BookDto(BOOK_NOT_IN_BOOKSTORE, ONE);
+
+        listOfBooks.add(firstBook);
+        listOfBooks.add(secondBook);
+
+
+        assertThrows(InvalidBookException.class, () -> priceSummationServiceImpl.getCartSummaryReport(listOfBooks));
     }
 
 
