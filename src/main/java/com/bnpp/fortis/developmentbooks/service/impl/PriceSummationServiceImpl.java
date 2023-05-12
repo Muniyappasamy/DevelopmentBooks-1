@@ -6,10 +6,7 @@ import com.bnpp.fortis.developmentbooks.storerepository.BookStoreEnum;
 import com.bnpp.fortis.developmentbooks.storerepository.DiscountDetailsEnum;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,6 +21,8 @@ public class PriceSummationServiceImpl implements PriceSummationService {
     private static final int FIVE = 5;
     private static final int TEN = 10;
 
+    private static final int ONE_QUANTITY = 1;
+
     private static final int HUNDRED = 100;
 
 
@@ -31,13 +30,28 @@ public class PriceSummationServiceImpl implements PriceSummationService {
     public Double calculateBookPrice(List<BookDto> listOfBooks) {
         Map<String, Double> bookTitlePriceMap = Arrays.stream(BookStoreEnum.values())
                 .collect(Collectors.toMap(BookStoreEnum::getBookTitle, BookStoreEnum::getPrice));
-        long distinctBooks = listOfBooks.stream().map(BookDto::getName).distinct().count();
+        Map<String, Integer> listOfbookWithQuantityMap = listOfBooks.stream()
+                .collect(Collectors.toMap(BookDto::getName, BookDto::getQuantity));
+        int distinctBooksCount = listOfbookWithQuantityMap.size();
+        List<String> distinctListOfBooks = listOfbookWithQuantityMap.keySet().stream().limit(distinctBooksCount)
+                .collect(Collectors.toList());
+        double actualPriceforDistinctBooks = distinctListOfBooks.stream()
+                .mapToDouble(bookName -> bookTitlePriceMap.get(bookName)).sum();
+        double discountedPrice = (actualPriceforDistinctBooks * getDiscountPercentage(distinctBooksCount)) / HUNDRED;
+        distinctListOfBooks.forEach(bookName -> {
+            int quantity = listOfbookWithQuantityMap.get(bookName);
+            if (quantity > ONE_QUANTITY) {
+                listOfbookWithQuantityMap.put(bookName, quantity - ONE_QUANTITY);
+            } else {
+                listOfbookWithQuantityMap.remove(bookName);
+            }
+        });
+        double priceForDiscountedBooks = actualPriceforDistinctBooks - discountedPrice;
+        Set<String> remainingBooks = listOfbookWithQuantityMap.keySet();
+        double priceForRemainingBooks = remainingBooks.stream()
+                .mapToDouble(bookName -> listOfbookWithQuantityMap.get(bookName) * bookTitlePriceMap.get(bookName)).sum();
 
-        double actualPrice = listOfBooks.stream()
-                .mapToDouble(book -> bookTitlePriceMap.get(book.getName()) * book.getQuantity()).sum();
-        double discountedPrice = (actualPrice * getDiscountPercentage(distinctBooks)) / HUNDRED;
-
-        return (actualPrice - discountedPrice);
+        return (priceForDiscountedBooks + priceForRemainingBooks);
     }
 
     private int getDiscountPercentage(long numberOfDistinctBooks) {

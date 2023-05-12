@@ -28,6 +28,8 @@ class PriceSummationServiceImplTest {
     private static final double FOUR_DISTINCT_BOOKS_PRICE_WITH_TWENTY_PERCENTAGE_DISCOUNT = 160.00;
     private static final double FOUR_DISTINCT_BOOKS_PRICE_WITH_TWENTYFIVE_PERCENTAGE_DISCOUNT = 187.50;
 
+    private static final double TWO_DISTINCT_AND_ONE_SEPARATE_BOOK_WITH_DISCOUNT = 145.00;
+
     private static final double BOOK_PRICE = 50.00;
 
     private static final int ONE = 1;
@@ -146,6 +148,25 @@ class PriceSummationServiceImplTest {
         Double actualPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks);
 
         assertEquals(FOUR_DISTINCT_BOOKS_PRICE_WITH_TWENTYFIVE_PERCENTAGE_DISCOUNT, actualPrice);
+    }
+
+
+    @Test
+    @DisplayName("two distinct listOfBooks should only get 5% discount remaining Books with actual price")
+    void fivePercentDiscountOnlyForTwoDistinctBooksShouldApply() {
+
+
+        BookDto firstBook = new BookDto(FIRST_BOOK_NAME, TWO);
+        BookDto secondBook = new BookDto(SECOND_BOOK_NAME, ONE);
+
+        listOfBooks.add(firstBook);
+        listOfBooks.add(secondBook);
+
+
+        Double actualPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks);
+
+
+        assertEquals(TWO_DISTINCT_AND_ONE_SEPARATE_BOOK_WITH_DISCOUNT, actualPrice);
     }
 
 }
