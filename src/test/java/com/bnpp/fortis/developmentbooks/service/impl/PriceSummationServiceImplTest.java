@@ -17,20 +17,33 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class PriceSummationServiceImplTest {
 
-    private static final String BOOK_NAME = "Clean Code";
+    private static final String FIRST_BOOK_NAME = "Clean Code";
+    private static final String SECOND_BOOK_NAME = "The Clean Coder";
+
     private static final double BOOK_PRICE = 50.00;
 
     private static final int ONE = 1;
+    private static final int TWO = 2;
+
+    List<BookDto> listOfBooks;
 
     @Autowired
     private PriceSummationServiceImpl priceSummationServiceImpl;
 
+    @BeforeEach
+    void setup() {
+        listOfBooks = new ArrayList<>();
+    }
+
+
     @Test
     @DisplayName("single book price should return 50")
     void singleBookCalculatedPriceIsFifty() {
-        BookDto bookDto = new BookDto(BOOK_NAME, ONE);
+        BookDto bookDto = new BookDto(FIRST_BOOK_NAME, ONE);
 
-        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(bookDto);
+        listOfBooks.add(bookDto);
+
+        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks);
 
         assertEquals(BOOK_PRICE, actualBookPrice);
     }
@@ -40,9 +53,27 @@ class PriceSummationServiceImplTest {
     @CsvSource({"1,50", "2,100", "3,150", "4,200", "10,500"})
     @DisplayName("should return price based on quantity")
     void shouldReturnPriceBasedOnQuantity(int quantity, double expectedPrice) {
-        BookDto bookDto = new BookDto(BOOK_NAME, quantity);
+        BookDto bookDto = new BookDto(FIRST_BOOK_NAME, quantity);
 
-        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(bookDto);
+        listOfBooks.add(bookDto);
+
+        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks);
+
+        assertEquals(expectedPrice, actualBookPrice);
+    }
+
+    @Test
+    @DisplayName("calculate price for different books")
+    void calculatePrice_shouldReturnPriceForMultipleBooks() {
+        Double expectedPrice = (TWO * BOOK_PRICE);
+
+        BookDto firstBook = new BookDto(FIRST_BOOK_NAME, ONE);
+        BookDto secondBook = new BookDto(SECOND_BOOK_NAME, ONE);
+
+        listOfBooks.add(firstBook);
+        listOfBooks.add(secondBook);
+
+        Double actualBookPrice = priceSummationServiceImpl.calculateBookPrice(listOfBooks);
         
         assertEquals(expectedPrice, actualBookPrice);
     }
