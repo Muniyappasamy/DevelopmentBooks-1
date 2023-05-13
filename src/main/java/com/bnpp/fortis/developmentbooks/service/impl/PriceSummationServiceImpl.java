@@ -39,12 +39,12 @@ public class PriceSummationServiceImpl implements PriceSummationService {
     }
 
     public void validateAllBooks(List<BookDto> listOfBooks) {
-        Map<String, Double> validBooks = getValidBooks(); //
+        Map<String, Double> validBooks = getValidBooks();
         List<String> invalidBooks = listOfBooks.stream().filter(book -> !validBooks.containsKey(book.getName())).map(BookDto::getName).collect(Collectors.toList());
         if (CollectionUtils.isNotEmpty(invalidBooks)) {
             throw new InvalidBookException(invalidBooks);
         }
-        List<Integer> invalidQuantities = listOfBooks.stream().filter(book -> book.getQuantity() <= 0).map(BookDto::getQuantity).collect(Collectors.toList());
+        List<Integer> invalidQuantities = listOfBooks.stream().filter(book -> book.getQuantity() <= 0 ).map(BookDto::getQuantity).collect(Collectors.toList());
         if (CollectionUtils.isNotEmpty(invalidQuantities)) {
             throw new InvalidQuantityException(invalidQuantities);
         }
@@ -83,7 +83,9 @@ public class PriceSummationServiceImpl implements PriceSummationService {
 
     public List<Integer> getPossibleDiscountValues(int numberOfBooks) {
 
-        return Arrays.stream(DiscountDetailsEnum.values()).sorted(Comparator.reverseOrder()).filter(discountGroup -> discountGroup.getNumberOfDistinctItems() <= numberOfBooks).map(DiscountDetailsEnum::getNumberOfDistinctItems).collect(Collectors.toList());
+        List<DiscountDetailsEnum> list = Arrays.asList(DiscountDetailsEnum.values());
+        Collections.reverse(list);
+        return list.stream().filter(discountGroup -> discountGroup.getNumberOfDistinctItems() <= numberOfBooks).map(DiscountDetailsEnum::getNumberOfDistinctItems).collect(Collectors.toList());
     }
 
     private List<BookGroupClassification> getListOfBookGroupWithDiscount(Map<String, Integer> listOfBooksWithQuantityMap, List<BookGroupClassification> bookGroupClassificationList, int numberOfBooksToGroup) {

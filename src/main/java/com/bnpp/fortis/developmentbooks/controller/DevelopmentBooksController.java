@@ -1,7 +1,7 @@
 package com.bnpp.fortis.developmentbooks.controller;
 
 import com.bnpp.fortis.developmentbooks.model.Book;
-import com.bnpp.fortis.developmentbooks.model.BookDto;
+import com.bnpp.fortis.developmentbooks.model.BooksData;
 import com.bnpp.fortis.developmentbooks.model.CartSummaryReportDto;
 import com.bnpp.fortis.developmentbooks.service.DevelopmentBooksService;
 import com.bnpp.fortis.developmentbooks.service.PriceSummationService;
@@ -42,7 +42,7 @@ public class DevelopmentBooksController {
             @ApiResponse(code = 404, message = "not found!!!")
     })
     @PostMapping("${developmentbooks.endpoints.calculatediscountprice}")
-    public CartSummaryReportDto calculateDiscountPrice(@RequestBody List<BookDto> listOfBooks) {
-        return priceSummationService.getCartSummaryReport(listOfBooks);
+    public CartSummaryReportDto calculateDiscountPrice(@RequestBody BooksData booksData) {
+        return priceSummationService.getCartSummaryReport(booksData.getBookList());
     }
 }

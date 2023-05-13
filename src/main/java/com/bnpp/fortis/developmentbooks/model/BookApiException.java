@@ -7,8 +7,8 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
-public class ApiError {
+public class BookApiException {
 
-    String functionalErrorCode;
-    String functionalErrorMessage;
+    String errorCode;
+    String errorMessage;
 }
